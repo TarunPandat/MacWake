@@ -13,6 +13,9 @@ export const metadata = {
     description: "Wake your Mac at home from anywhere.",
     type: "website",
   },
+  // Google Search Console: the HTML-tag form of the site's verification. The DNS form of the same
+  // value (a TXT record) goes in the domain's DNS, not here.
+  verification: { google: "QGXCVmYzB_ZZTEjd4_fkbPOYmXQOhvVPaM4BpZqOVSA" },
 };
 
 export const viewport = { themeColor: "#12142b", colorScheme: "dark" };

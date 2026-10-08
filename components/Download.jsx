@@ -54,7 +54,12 @@ const ROWS = {
       ),
     small: site.ios
       ? "Wake your Mac from your phone."
-      : "Adds MacWake to your Home Screen, no App Store needed. Open this page in Safari on your iPhone, tap Install on iPhone and Allow, then in Settings tap Profile Downloaded and Install.",
+      : (
+        <>
+          Adds MacWake to your Home Screen, no App Store needed. Open this page in Safari on your iPhone.{" "}
+          <a href="#install-iphone">See the steps</a>
+        </>
+      ),
   },
   android: {
     name: "Android",

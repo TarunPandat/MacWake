@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import HowItWorks from "../components/HowItWorks";
 import Features from "../components/Features";
 import Download from "../components/Download";
+import IosInstall from "../components/IosInstall";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer";
 
@@ -15,6 +16,7 @@ export default function Home() {
         <HowItWorks />
         <Features />
         <Download />
+        <IosInstall />
         <Faq />
       </main>
       <Footer />

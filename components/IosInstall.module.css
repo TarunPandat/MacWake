@@ -1,0 +1,152 @@
+.layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(40px, 7vw, 112px);
+  align-items: center; margin-top: clamp(40px, 6vw, 72px);
+}
+
+/* ---------- The steps: a real sequence, so numbered. The current one wakes up (thin to heavy). ---------- */
+.steps { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); max-width: 560px; }
+.step {
+  position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 4px; width: 100%;
+  padding: 20px 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; cursor: pointer;
+}
+.num { font-size: 30px; line-height: 1; font-weight: 200; color: var(--faint); transition: font-weight 500ms var(--ease), color 400ms; }
+.title { display: block; font-size: 19px; font-weight: 600; color: var(--soft); transition: color 300ms; }
+.text { display: block; margin-top: 4px; font-size: 16px; line-height: 1.5; color: var(--faint); transition: color 300ms; }
+.step:hover .title { color: var(--ink); }
+.step[aria-current="step"] .num { font-weight: 700; color: var(--led); }
+.step[aria-current="step"] .title { color: var(--ink); }
+.step[aria-current="step"] .text { color: var(--soft); }
+/* How long until the next step plays: a thin line of sleep light along the top edge. */
+.progress {
+  position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--led);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--led) 60%, transparent);
+  transform-origin: left; animation: grow linear forwards;
+}
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+/* ---------- The phone. Everything inside is sized in cqw, so it scales like a screenshot. ---------- */
+.figure { margin: 0; width: min(300px, 78vw); container-type: inline-size; justify-self: center; }
+.phone {
+  position: relative; aspect-ratio: 9 / 19.5; padding: 3.4cqw; border-radius: 16cqw; background: var(--deep);
+  box-shadow: inset 0 0 0 0.6cqw var(--lid), inset 0 0 0 1.3cqw #07081a, 0 40px 90px -40px #000;
+}
+.phone::before, .phone::after { content: ""; position: absolute; width: 0.9cqw; border-radius: 1cqw; background: var(--lid); }
+.phone::before { right: -0.5cqw; top: 27%; height: 14%; }
+.phone::after { left: -0.5cqw; top: 22%; height: 7%; box-shadow: 0 11cqw 0 var(--lid); }
+.screen {
+  position: relative; height: 100%; overflow: hidden; border-radius: 12.8cqw; background: #000; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; font-size: 4.2cqw; line-height: 1.35;
+}
+.layer { position: absolute; inset: 0; }
+.layer > * { height: 100%; }
+.layer p { margin: 0; }
+
+.status { display: flex; align-items: center; justify-content: space-between; height: 13cqw; padding: 0 7cqw 0 9cqw; font-weight: 600; }
+.island { position: absolute; top: 2.8cqw; left: 50%; width: 28cqw; height: 8cqw; margin-left: -14cqw; border-radius: 99px; background: #000; }
+.battery { width: 6.6cqw; height: 3.2cqw; border-radius: 1cqw; box-shadow: inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.5); padding: 0.6cqw; }
+.battery::before { content: ""; display: block; height: 100%; border-radius: 0.4cqw; background: #fff; }
+
+/* The pressed control dims, the way iOS shows a tap. Timed to the finger landing. */
+.layer [data-tap] { animation: pressed 420ms 1050ms ease-out both; }
+@keyframes pressed { 40% { opacity: 0.45; } 100% { opacity: 1; } }
+
+/* ---------- Step 1-2: this site in Safari ---------- */
+.site { position: relative; background: var(--night); color: var(--ink); font-family: var(--font), system-ui, sans-serif; padding: 0 6cqw; }
+.site .status { margin: 0 -6cqw; }
+.siteNav { display: flex; align-items: center; justify-content: space-between; margin: 2cqw 0 10cqw; }
+.siteBrand { display: inline-flex; align-items: center; gap: 2.4cqw; font-weight: 650; font-size: 4.4cqw; }
+.siteBrand :global(.led) { width: 7cqw; height: 2.2cqw; }
+.sitePill { padding: 1.8cqw 3.6cqw; border-radius: 99px; background: var(--ink); color: var(--night); font-size: 3.4cqw; font-weight: 600; }
+.siteH { font-size: 10cqw; line-height: 1; letter-spacing: -0.04em; font-weight: 640; }
+.siteRow { margin-top: 12cqw !important; padding-top: 6cqw; border-top: 0.3cqw solid var(--line); font-size: 6cqw; font-weight: 600; letter-spacing: -0.02em; }
+.siteSmall { margin-top: 2cqw !important; color: var(--soft); font-size: 3.8cqw; }
+.siteBtn {
+  display: inline-block; margin-top: 6cqw; padding: 3.6cqw 6cqw; border-radius: 99px;
+  background: var(--ink); color: var(--night); font-size: 4.2cqw; font-weight: 600;
+}
+.safari {
+  position: absolute; left: 4cqw; right: 4cqw; bottom: 5cqw; height: 11cqw; border-radius: 6cqw;
+  display: grid; place-items: center; background: rgba(44, 44, 46, 0.92); color: #fff;
+  font-family: -apple-system, system-ui, sans-serif; font-size: 3.8cqw;
+}
+.scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); }
+.alert {
+  position: absolute; left: 8cqw; right: 8cqw; top: 36%; padding: 5cqw 5cqw 1cqw; border-radius: 5cqw;
+  background: rgba(44, 44, 46, 0.97); color: #fff; font-family: -apple-system, system-ui, sans-serif; font-size: 4.1cqw;
+}
+.alertActions { display: flex; justify-content: flex-end; gap: 8cqw; padding: 4cqw 1cqw 3cqw; color: #0a84ff; }
+.alertActions b { font-weight: 600; }
+
+/* ---------- Step 3-5: Settings, in iOS dark mode ---------- */
+.ios { position: relative; background: #000; padding: 0 4.5cqw; }
+.ios .status { margin: 0 -4.5cqw; }
+.large { font-size: 8.6cqw; font-weight: 700; letter-spacing: -0.02em; margin: 3cqw 0 3cqw !important; }
+.search { padding: 2.4cqw 3.6cqw; border-radius: 3cqw; background: #1c1c1e; color: #8e8e93; margin-bottom: 5cqw; }
+.group { border-radius: 3.6cqw; background: #1c1c1e; margin-bottom: 5cqw; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 3cqw; padding: 3.4cqw 4cqw; }
+.row + .row { box-shadow: inset 11cqw 0.25cqw 0 -0.05cqw #1c1c1e, inset 0 0.25cqw 0 #38383a; }
+.row > span:nth-last-child(2):not(.icon) { flex: 1; }
+.icon { width: 6.4cqw; height: 6.4cqw; border-radius: 1.6cqw; flex: none; }
+.chev { width: 2cqw; height: 2cqw; margin-left: auto; border: solid #8e8e93; border-width: 0.5cqw 0.5cqw 0 0; transform: rotate(45deg); }
+.account { display: flex; align-items: center; gap: 3.6cqw; padding: 3.6cqw 4cqw; }
+.account b, .profileHead b { display: block; font-weight: 600; }
+.account small, .profileHead small { display: block; color: #8e8e93; font-size: 3.4cqw; }
+.avatar { width: 12cqw; height: 12cqw; border-radius: 50%; background: linear-gradient(#8e8e93, #636366); flex: none; }
+.downloaded { box-shadow: 0 0 0 0.5cqw color-mix(in srgb, #0a84ff 55%, transparent); }
+
+.sheet { position: absolute; inset: 13cqw 0 0; padding: 0 4.5cqw; border-radius: 4cqw 4cqw 0 0; background: #000; box-shadow: 0 -0.3cqw 0 #2c2c2e; }
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 13cqw; margin-bottom: 4cqw; color: #0a84ff; }
+.navbar b { color: #fff; font-weight: 600; }
+.profileHead { display: flex; align-items: center; gap: 3.6cqw; padding: 4cqw; box-shadow: inset 0 -0.25cqw 0 #38383a; }
+.gear { width: 12cqw; height: 12cqw; border-radius: 2.8cqw; background: radial-gradient(circle, #1c1c1e 26%, transparent 27%), repeating-conic-gradient(#8e8e93 0 18deg, #636366 18deg 36deg); flex: none; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 2.4cqw 3cqw; margin: 0; padding: 4cqw; font-size: 3.6cqw; box-shadow: inset 0 -0.25cqw 0 #38383a; }
+.facts dt { color: #8e8e93; text-align: right; }
+.facts dd { margin: 0; }
+.red { color: #ff453a; }
+.caption { color: #8e8e93; font-size: 3.2cqw; margin: 2cqw 0 2cqw 4cqw !important; }
+.actionSheet { position: absolute; left: 3cqw; right: 3cqw; bottom: 5cqw; display: grid; gap: 2.4cqw; text-align: center; font-size: 5cqw; }
+.actionSheet > div { padding: 4cqw; border-radius: 4.4cqw; background: #2c2c2e; }
+.actionSheet > div:last-child { color: #0a84ff; }
+
+/* ---------- Step 6: the Home Screen, MacWake arriving ---------- */
+.home { position: relative; background: radial-gradient(90% 60% at 30% 20%, #2b2e66, transparent 70%), radial-gradient(80% 60% at 80% 90%, #1d3b44, transparent 70%), #0c0e21; padding: 0 6cqw; }
+.home .status { margin: 0 -6cqw; }
+.apps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6cqw 5cqw; margin-top: 6cqw; font-size: 2.9cqw; text-align: center; }
+.app { display: grid; justify-items: center; gap: 1.6cqw; }
+.appIcon { display: block; width: 15cqw; height: 15cqw; border-radius: 3.6cqw; }
+.appLabel { width: 9cqw; height: 1.6cqw; border-radius: 1cqw; background: rgba(255, 255, 255, 0.35); margin-top: 0.6cqw; }
+/* Same artwork as the profile's icon: night tile, lid edge, glowing sleep light. */
+.macwake {
+  position: relative; background: linear-gradient(#2b2e66, #12142b);
+  animation: arrive 700ms 250ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+.macwake::before, .macwake::after { content: ""; position: absolute; left: 50%; border-radius: 99px; }
+.macwake::before { top: 36%; width: 68%; height: 11%; margin-left: -34%; background: #5a5fa8; }
+.macwake::after { top: 58%; width: 34%; height: 12%; margin-left: -17%; background: var(--led); box-shadow: 0 0 2cqw 0.6cqw color-mix(in srgb, var(--led) 70%, transparent); }
+@keyframes arrive { from { transform: scale(0); opacity: 0; } }
+.dock {
+  position: absolute; left: 4cqw; right: 4cqw; bottom: 4cqw; display: flex; justify-content: space-around;
+  padding: 4cqw; border-radius: 9cqw; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(4px);
+}
+
+/* ---------- The finger ---------- */
+.finger {
+  position: absolute; z-index: 5; width: 11cqw; height: 11cqw; margin: -5.5cqw 0 0 -5.5cqw; pointer-events: none;
+}
+.press {
+  position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 0.6cqw rgba(255, 255, 255, 0.6), 0 2cqw 6cqw rgba(0, 0, 0, 0.45);
+  animation: tap 1500ms ease-out both;
+}
+.press::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 0.6cqw solid #fff; opacity: 0;
+  animation: ripple 700ms 1000ms ease-out both;
+}
+@keyframes tap { 0%, 62% { transform: scale(1); } 70% { transform: scale(0.78); } 84%, 100% { transform: scale(1); } }
+@keyframes ripple { from { transform: scale(0.7); opacity: 0.9; } to { transform: scale(2.4); opacity: 0; } }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .figure { order: -1; }
+}
