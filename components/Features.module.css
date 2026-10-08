@@ -1,0 +1,79 @@
+/* Two speeds: the same tap races down two lanes. */
+.race { margin-top: clamp(48px, 7vw, 88px); }
+.lanes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+
+.lane {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center;
+  gap: 28px clamp(32px, 6vw, 88px); padding: clamp(32px, 4.5vw, 48px) 0; border-bottom: 1px solid var(--line);
+}
+.laneTitle { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: var(--soft); }
+/* Thin while the Mac sleeps, heavy once it's awake. */
+.time {
+  margin: 4px 0 0; font-size: clamp(32px, 3.8vw, 44px); line-height: 1.1; letter-spacing: -0.035em;
+  font-weight: 250; color: var(--ink); transition: font-weight 700ms var(--ease);
+}
+.lane[data-awake="true"] .time { font-weight: 700; }
+.body { margin: 14px 0 0; font-size: 17px; color: var(--soft); max-width: 40ch; text-wrap: pretty; }
+
+.track { min-width: 0; }
+/* Side margins are half the sleep light's width, so it never overhangs the column. */
+.rail { position: relative; height: 40px; margin: 0 23px; }
+.seg { position: absolute; top: 50%; left: 0; width: 50%; margin-top: -0.75px; border-top: 1.5px solid var(--line); }
+.far { left: 50%; }
+.rail[data-lane="battery"] .far { border-top-style: dashed; }
+
+.phone, .console { position: absolute; top: 50%; border: 1.5px solid var(--soft); background: var(--night); }
+.phone { left: 0; width: 12px; height: 20px; margin: -10px 0 0 -6px; border-radius: 3.5px; }
+.console { left: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; }
+.mac { position: absolute; left: 100%; top: 50%; display: flex; transform: translate(-50%, -50%); }
+
+/* Centred with margins, not transforms, so motion can own left and scale. */
+.signal {
+  position: absolute; top: 50%; left: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  background: var(--pending); box-shadow: 0 0 14px 3px color-mix(in srgb, var(--pending) 45%, transparent);
+}
+.signal::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 1.5px solid var(--pending); opacity: 0; }
+.signal[data-waiting="true"]::after { animation: ping 1.2s var(--ease) infinite; }
+@keyframes ping { from { transform: scale(1); opacity: 0.7; } to { transform: scale(2.6); opacity: 0; } }
+
+/* The check-in leaves from the sleep light. */
+.blip {
+  position: absolute; top: 50%; left: 100%; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%;
+  background: var(--led); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--led) 50%, transparent);
+}
+
+.captions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 6px; font-size: 14px; color: var(--soft); }
+.captions span:nth-child(2) { text-align: center; }
+.captions span:last-child { text-align: right; }
+
+.status {
+  display: flex; align-items: center; gap: 10px; min-height: 1.55em; margin: 18px 0 0;
+  font-size: 16px; font-weight: 300; color: var(--soft);
+  transition: color 300ms var(--ease), font-weight 500ms var(--ease);
+}
+.status[data-tone="pending"] { color: var(--pending); font-weight: 450; }
+.status[data-tone="awake"] { color: var(--awake); font-weight: 650; }
+.dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status[data-tone="sleep"] .dot { background: var(--led); opacity: 0.5; }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 32px; }
+.spark {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--pending);
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--pending) 45%, transparent);
+}
+.note { margin: 0; font-size: 16px; color: var(--soft); }
+
+/* What you get: a definition list, ruled like a spec sheet. */
+.listTitle { margin: clamp(80px, 11vw, 140px) 0 0; font-size: 28px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 600; }
+.list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 6vw, 88px); margin: 28px 0 0; }
+.item { padding: 28px 0 32px; border-top: 1px solid var(--line); }
+.term { display: flex; align-items: center; gap: 14px; font-size: 19px; line-height: 1.35; font-weight: 650; letter-spacing: -0.01em; color: var(--ink); }
+.icon { flex: none; width: 24px; height: 24px; color: var(--soft); }
+.def { margin: 8px 0 0 38px; font-size: 17px; color: var(--soft); max-width: 42ch; text-wrap: pretty; }
+
+@media (max-width: 860px) {
+  .lane { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .list { grid-template-columns: minmax(0, 1fr); }
+}

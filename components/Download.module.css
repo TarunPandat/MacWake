@@ -1,0 +1,21 @@
+.layout { display: grid; gap: 72px; margin-top: clamp(48px, 6vw, 80px); }
+@media (min-width: 960px) {
+  .layout { grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(64px, 8vw, 128px); align-items: start; }
+}
+
+/* Rows split by hairlines; the list is its own container so rows stack when the column is narrow, not the window. */
+.list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); container-type: inline-size; }
+.row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+  column-gap: 40px; row-gap: 22px; padding: 34px 0; border-top: 1px solid var(--line);
+}
+@container (max-width: 560px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+}
+
+.name { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 560; letter-spacing: -0.025em; }
+.small { margin: 8px 0 0; max-width: 32em; font-size: 16px; line-height: 1.5; color: var(--soft); text-wrap: pretty; }
+.note { margin: 14px 0 0; max-width: 32em; font-size: 16px; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
+.action { display: flex; }
+
+.pair { margin: 28px 0 0; max-width: 34em; font-size: 16px; line-height: 1.5; color: var(--soft); text-wrap: pretty; }

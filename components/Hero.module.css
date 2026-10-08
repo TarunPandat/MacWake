@@ -1,0 +1,123 @@
+/* The room: dark, lit only by the Mac's light. The glow color follows the demo's phase. */
+@property --glow { syntax: "<color>"; inherits: true; initial-value: rgba(255, 247, 232, 0.07); }
+
+.hero {
+  --glow: rgba(255, 247, 232, 0.07);
+  position: relative; overflow: hidden; background: var(--deep);
+  padding: clamp(120px, 16vh, 180px) 0 clamp(72px, 10vw, 128px);
+  transition: --glow 1200ms var(--ease);
+}
+.hero[data-phase="sent"] { --glow: rgba(242, 180, 90, 0.12); }
+.hero[data-phase="awake"] { --glow: rgba(91, 214, 181, 0.16); }
+.room {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 55% at 72% 46%, var(--glow), transparent 70%),
+    linear-gradient(to bottom, transparent 70%, var(--night));
+}
+
+.grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+
+/* The headline wakes up on load: each line goes from thin and dim to full weight. */
+.title { margin: 0; font-size: clamp(44px, 5.6vw, 86px); line-height: 0.98; letter-spacing: -0.05em; font-weight: 640; }
+/* One deliberate line per span; nowrap so a line never breaks mid-phrase. */
+.title span { display: block; white-space: nowrap; animation: wakeType 1400ms var(--ease) both; }
+.title span:nth-child(2) { animation-delay: 140ms; }
+.title span:nth-child(3) { animation-delay: 280ms; }
+@keyframes wakeType {
+  from { font-weight: 150; opacity: 0.15; filter: blur(6px); }
+  60% { opacity: 1; filter: blur(0); }
+  to { font-weight: 640; opacity: 1; }
+}
+.lead { margin-top: 28px; animation: rise 900ms 500ms var(--ease) both; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; animation: rise 900ms 650ms var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- The MacBook, in CSS 3D. Base tilted toward you; lid hinged at the back edge. ---------- */
+.stage { --w: min(380px, 76vw); --d: calc(var(--w) * 0.64); position: relative; display: grid; justify-items: center; }
+.scene { position: relative; width: 100%; height: calc(var(--d) * 1.9); perspective: 1500px; /* room for the open lid */ perspective-origin: 50% -10%; display: grid; place-items: end center; }
+.mac { position: relative; width: var(--w); height: var(--d); transform-style: preserve-3d; transform: rotateX(58deg); margin-bottom: calc(var(--d) * 0.02); }
+
+.base {
+  position: absolute; inset: 0; border-radius: 3.5% / 5.5%;
+  background: linear-gradient(180deg, #33376d, #24275a);
+  box-shadow: inset 0 0 0 1px rgba(154, 156, 192, 0.18), 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+}
+.keys {
+  position: absolute; left: 9%; right: 9%; top: 9%; height: 46%; border-radius: 6px; background-color: #191b3a;
+  background-image: linear-gradient(90deg, rgba(77, 82, 148, 0.35) 1px, transparent 1px), linear-gradient(rgba(77, 82, 148, 0.35) 1px, transparent 1px);
+  background-size: calc(100% / 14) calc(100% / 5);
+}
+.pad { position: absolute; left: 33%; right: 33%; top: 62%; height: 29%; border-radius: 8px; background: #2c3064; box-shadow: inset 0 0 0 1px rgba(154, 156, 192, 0.12); }
+
+/* Front edge hangs down from the base; its sleep light is the real one. */
+.front {
+  position: absolute; left: 0; right: 0; top: 100%; height: 14px; transform-origin: top; transform: rotateX(-90deg);
+  background: linear-gradient(#1f2250, #15173a); border-radius: 0 0 10px 10px; display: grid; place-items: center;
+}
+.frontLight { width: 34px; height: 5px; border-radius: 9px; background: var(--led); box-shadow: 0 0 14px 4px rgba(255, 247, 232, 0.55); animation: breathe 5s ease-in-out infinite; transition: background 400ms, box-shadow 400ms; }
+.hero[data-phase="sent"] .frontLight { background: var(--pending); box-shadow: 0 0 16px 5px rgba(242, 180, 90, 0.6); animation: blink 1.1s ease-in-out infinite; }
+.hero[data-phase="awake"] .frontLight { background: var(--awake); box-shadow: 0 0 18px 6px rgba(91, 214, 181, 0.5); animation: none; opacity: 1; }
+
+.lid {
+  position: absolute; inset: 0; transform-origin: top; transform-style: preserve-3d;
+  transform: translateZ(1.5px) rotateX(0deg);
+  transition: transform 1300ms cubic-bezier(0.3, 0.9, 0.25, 1);
+}
+.hero[data-phase="awake"] .lid { transform: translateZ(1.5px) rotateX(102deg); }
+.shell, .screen { position: absolute; inset: 0; border-radius: 3.5% / 5.5%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.shell { background: linear-gradient(160deg, #3d4180, #262a5c 60%, #1e2150); box-shadow: inset 0 0 0 1px rgba(154, 156, 192, 0.22); display: grid; place-items: center; }
+.logo { width: 13%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, rgba(233, 231, 243, 0.22), rgba(233, 231, 243, 0.05)); }
+
+/* The screen faces the base while closed, so it's the lid's back face. */
+.screen {
+  transform: rotateX(180deg); padding: 3.2%; background: #07081a;
+  box-shadow: inset 0 0 0 1px rgba(154, 156, 192, 0.14);
+}
+.screen::before {
+  content: ""; position: absolute; inset: 3.2%; border-radius: 6px; opacity: 0;
+  background:
+    radial-gradient(80% 70% at 20% 10%, rgba(91, 214, 181, 0.35), transparent 60%),
+    radial-gradient(70% 80% at 90% 90%, rgba(77, 82, 148, 0.9), transparent 70%),
+    linear-gradient(160deg, #1b1e4a, #0f1130);
+  transition: opacity 700ms 700ms var(--ease);
+}
+.menubar, .window { position: relative; opacity: 0; transition: opacity 500ms 1100ms var(--ease); }
+.hero[data-phase="awake"] .screen::before, .hero[data-phase="awake"] .menubar, .hero[data-phase="awake"] .window { opacity: 1; }
+.menubar { height: 9%; display: flex; justify-content: flex-end; align-items: center; padding: 0 3%; background: rgba(7, 8, 26, 0.35); border-radius: 6px 6px 0 0; }
+.menubar :global(.led) { width: 18px; height: 5px; }
+.window {
+  margin: 9% auto 0; width: 64%; padding: 4% 5%; border-radius: 8px; background: rgba(7, 8, 26, 0.78);
+  box-shadow: 0 0 0 1px rgba(154, 156, 192, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
+  font-size: clamp(9px, 1.5vw, 13px); color: var(--awake); display: flex; align-items: center; gap: 6px;
+}
+.cursor { width: 0.55em; height: 1.1em; background: var(--awake); animation: blink 1.1s steps(1) infinite; }
+
+/* The wake request, travelling from your tap up to the Mac. */
+.signal { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.signal path {
+  fill: none; stroke: var(--pending); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke;
+  stroke-dasharray: 0.1 1.2; stroke-dashoffset: 0.1; opacity: 0; filter: drop-shadow(0 0 6px var(--pending));
+}
+.hero[data-phase="sent"] .signal path { opacity: 1; animation: travel 1500ms var(--ease) forwards; }
+@keyframes travel { from { stroke-dashoffset: 0.1; } to { stroke-dashoffset: -1; } }
+
+/* The readout is the app's own screen: light, status word, one line, one button. */
+.readout { display: grid; justify-items: start; width: min(100%, 420px); margin-top: 28px; }
+.word {
+  margin: 18px 0 8px; font-size: clamp(44px, 5.4vw, 64px); line-height: 1; letter-spacing: -0.045em;
+  font-weight: 250; transition: font-weight 900ms var(--ease), color 600ms;
+}
+.hero[data-phase="sent"] .word { font-weight: 430; }
+.hero[data-phase="awake"] .word { font-weight: 720; }
+.line { margin: 0 0 22px; color: var(--soft); min-height: 3em; max-width: 34ch; }
+.readout :global(.btn) { min-width: 220px; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .stage { margin-top: 24px; }
+}
+
+/* CSS Modules scope keyframe names, so the light's rhythms are declared here too (same as globals.css). */
+@keyframes breathe { 0%, 100% { opacity: 0.12; } 45%, 55% { opacity: 1; } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }

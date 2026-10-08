@@ -1,0 +1,32 @@
+.footer {
+  margin-top: clamp(96px, 14vw, 180px); padding: 72px 0 48px; background: var(--deep);
+  view-timeline: --footer block;
+}
+
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px 64px; }
+
+.mark { display: flex; align-items: center; gap: 14px; margin: 0; font-size: 24px; font-weight: 620; letter-spacing: -0.03em; }
+.brand :global(.led) { width: 24px; height: 7px; }
+.line { margin: 10px 0 0; color: var(--soft); }
+
+.links { display: flex; flex-wrap: wrap; gap: 0 28px; margin: 0; padding: 0; list-style: none; }
+.links a { display: inline-block; padding: 10px 0; color: var(--soft); text-decoration: none; transition: color 200ms var(--ease); }
+.links a:hover { color: var(--ink); }
+
+.bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
+  color: var(--soft); font-size: 15px;
+}
+
+/* The last light on the page goes out as you reach the end. Static where scroll timelines aren't supported. */
+.goodnight {
+  animation: lightsOut linear both;
+  animation-timeline: --footer;
+  animation-range: entry 40% entry 100%;
+}
+@keyframes lightsOut { to { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .goodnight { animation: none; }
+}
