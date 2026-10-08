@@ -1,0 +1,136 @@
+/* Set up and pair: section chrome, the macOS screens, and the phone pairing screens. Frames and pointers: Walkthrough.module.css. */
+.h3 { margin: clamp(64px, 9vw, 112px) 0 0; font-size: 28px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; }
+.toggle { display: inline-flex; margin-top: 20px; padding: 4px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); }
+.toggle button { border: 0; background: none; color: var(--soft); padding: 10px 18px; border-radius: 999px; font-size: 16px; cursor: pointer; transition: background 200ms, color 200ms; }
+.toggle button[aria-pressed="true"] { background: var(--raise); color: var(--ink); }
+
+/* The same artwork as the app icon: night tile, lid edge, glowing sleep light. Sized by its container. */
+.appIcon { position: relative; display: block; width: 9cqw; height: 9cqw; border-radius: 2.2cqw; background: linear-gradient(#2b2e66, #12142b); box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.15); }
+.appIcon::before, .appIcon::after { content: ""; position: absolute; left: 50%; border-radius: 99px; }
+.appIcon::before { top: 36%; width: 68%; height: 11%; margin-left: -34%; background: #5a5fa8; }
+.appIcon::after { top: 58%; width: 34%; height: 12%; margin-left: -17%; background: var(--led); box-shadow: 0 0 0.8cqw 0.2cqw color-mix(in srgb, var(--led) 70%, transparent); }
+.qr { display: block; width: 15cqw; height: 15cqw; border-radius: 0.6cqw; }
+
+/* ---------- macOS ---------- */
+.menubar {
+  position: absolute; inset: 0 0 auto; height: 3.6cqw; display: flex; justify-content: space-between; align-items: center;
+  padding: 0 2cqw; background: rgba(10, 12, 30, 0.55); backdrop-filter: blur(8px); font-size: 1.55cqw;
+}
+.menuLeft { display: flex; gap: 2.2cqw; }
+.menuLeft b { font-weight: 700; }
+.menuRight { display: flex; gap: 2.2cqw; align-items: center; }
+/* MacWake's menu bar icon: a crescent moon (the "powersleep" symbol). */
+.mwIcon { width: 2.1cqw; height: 2.1cqw; border-radius: 50%; background: radial-gradient(circle at 72% 32%, transparent 0.72cqw, #fff 0.78cqw); }
+.mwOpen { outline: 0.7cqw solid rgba(255, 255, 255, 0.2); outline-offset: 0.2cqw; }
+
+.window { position: absolute; overflow: hidden; border-radius: 1.4cqw; background: #1e2038; box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.12), 0 2cqw 5cqw rgba(0, 0, 0, 0.5); }
+.titlebar { position: relative; height: 3.6cqw; display: flex; align-items: center; justify-content: center; font-size: 1.55cqw; font-weight: 600; color: rgba(255, 255, 255, 0.75); background: #26284a; }
+.lights { position: absolute; left: 1.4cqw; display: flex; gap: 0.8cqw; }
+.lights i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #ff5f57; }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+
+.finder { left: 22%; right: 22%; top: 22%; }
+.dmgBody { display: flex; align-items: center; justify-content: space-around; padding: 4cqw 3cqw 5cqw; }
+.dmgItem { position: relative; display: grid; justify-items: center; gap: 1cqw; font-size: 1.55cqw; }
+/* After the click, a copy of the icon slides over to Applications: the drag. */
+.ghost { position: absolute; top: 0; left: 50%; margin-left: -4.5cqw; opacity: 0; animation: drag 1300ms 1300ms ease-in-out both; }
+@keyframes drag { 0% { opacity: 0.75; transform: translateX(0); } 85% { opacity: 0.75; transform: translateX(30cqw) scale(0.92); } 100% { opacity: 0; transform: translateX(30cqw) scale(0.92); } }
+.dmgArrow { position: relative; width: 6cqw; height: 0.3cqw; background: rgba(255, 255, 255, 0.4); }
+.dmgArrow::after { content: ""; position: absolute; right: -0.2cqw; top: -0.75cqw; border: 0.9cqw solid transparent; border-left-color: rgba(255, 255, 255, 0.4); border-right: 0; }
+.folder { position: relative; width: 10cqw; height: 7.6cqw; margin-top: 1.4cqw; border-radius: 1cqw; background: linear-gradient(#7cbcff, #3a8be0); }
+.folder::before { content: ""; position: absolute; left: 0; top: -1.2cqw; width: 4.4cqw; height: 2cqw; border-radius: 0.8cqw 0.8cqw 0 0; background: #6aaef5; }
+
+.settings { left: 12%; right: 12%; top: 13%; bottom: 9%; }
+.settingsBody { display: flex; height: calc(100% - 3.6cqw); }
+.sidebar { list-style: none; margin: 0; padding: 1.4cqw; width: 30%; background: #232544; font-size: 1.45cqw; display: grid; align-content: start; gap: 0.3cqw; }
+.sidebar li { padding: 0.6cqw 1cqw; border-radius: 0.8cqw; color: rgba(255, 255, 255, 0.8); }
+.sidebar .sel { background: #0a64d8; color: #fff; }
+.pane { flex: 1; padding: 2.4cqw 3cqw; }
+.paneH { font-weight: 700; font-size: 2cqw; margin-bottom: 1.4cqw !important; }
+.card { display: flex; align-items: center; justify-content: space-between; gap: 2cqw; padding: 2cqw; border-radius: 1.2cqw; background: #2a2c4c; font-size: 1.55cqw; }
+.macBtn { display: inline-block; padding: 0.6cqw 1.6cqw; border-radius: 0.8cqw; background: rgba(255, 255, 255, 0.16); font-size: 1.45cqw; white-space: nowrap; }
+.default { background: #0a7aff; }
+
+.dialog {
+  position: absolute; left: 50%; top: 50%; width: 34%; transform: translate(-50%, -46%);
+  display: grid; justify-items: center; gap: 0.9cqw; padding: 2.4cqw 2.2cqw 1.8cqw; text-align: center; font-size: 1.4cqw;
+  border-radius: 1.6cqw; background: rgba(40, 42, 70, 0.97); box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.14), 0 3cqw 7cqw rgba(0, 0, 0, 0.55);
+}
+.dialog b { font-size: 1.6cqw; }
+.dialog p { color: rgba(255, 255, 255, 0.75); }
+.dialogIcon { width: 6cqw; height: 6cqw; border-radius: 1.5cqw; }
+.field { justify-self: stretch; text-align: left; padding: 0.7cqw 1cqw; border-radius: 0.7cqw; background: rgba(0, 0, 0, 0.3); box-shadow: inset 0 0 0 0.1cqw rgba(255, 255, 255, 0.15); }
+.typing { display: inline-block; animation: type 900ms 200ms steps(10) both; }
+@keyframes type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.dialogBtns { display: flex; justify-self: stretch; justify-content: flex-end; gap: 0.8cqw; margin-top: 0.6cqw; }
+.pairDialog { width: 42%; top: 53%; }
+.token { font-weight: 600; color: #fff; }
+
+.menu {
+  position: absolute; right: 13%; top: 3.6cqw; width: 34%; margin: 0; padding: 0.6cqw; list-style: none; font-size: 1.5cqw;
+  border-radius: 1.2cqw; background: rgba(36, 38, 66, 0.96); box-shadow: 0 0 0 0.12cqw rgba(255, 255, 255, 0.14), 0 2cqw 5cqw rgba(0, 0, 0, 0.5);
+}
+.menu li { padding: 0.55cqw 1.2cqw; border-radius: 0.6cqw; }
+.menu .dim { color: rgba(255, 255, 255, 0.45); }
+.menu .sep { height: 0; padding: 0; margin: 0.5cqw 1cqw; border-top: 0.12cqw solid rgba(255, 255, 255, 0.14); }
+.menu .hl { background: #0a64d8; }
+
+/* ---------- iPhone: Camera ---------- */
+.camera { position: relative; background: #000; }
+.viewfinder { position: absolute; left: 0; right: 0; top: 13cqw; bottom: 34cqw; display: grid; place-items: center; background: radial-gradient(70% 50% at 50% 45%, #232646, #0b0c16); }
+.photoMac {
+  position: relative; display: grid; place-items: center; width: 74cqw; aspect-ratio: 16 / 10; border-radius: 3cqw;
+  background: linear-gradient(#2a2d58, #15173a); box-shadow: 0 0 0 1.6cqw #07081a; transform: perspective(70cqw) rotateX(9deg) rotateZ(-3deg);
+}
+.photoMac .qr { width: 27cqw; height: 27cqw; }
+/* The Camera's yellow corner brackets when it finds a code. */
+.brackets {
+  position: absolute; left: 50%; top: 50%; width: 35cqw; height: 35cqw; margin: -17.5cqw 0 0 -17.5cqw;
+  --y: #ffd60a; --l: 7cqw; --t: 0.9cqw;
+  background:
+    linear-gradient(var(--y), var(--y)) top left / var(--l) var(--t), linear-gradient(var(--y), var(--y)) top left / var(--t) var(--l),
+    linear-gradient(var(--y), var(--y)) top right / var(--l) var(--t), linear-gradient(var(--y), var(--y)) top right / var(--t) var(--l),
+    linear-gradient(var(--y), var(--y)) bottom left / var(--l) var(--t), linear-gradient(var(--y), var(--y)) bottom left / var(--t) var(--l),
+    linear-gradient(var(--y), var(--y)) bottom right / var(--l) var(--t), linear-gradient(var(--y), var(--y)) bottom right / var(--t) var(--l);
+  background-repeat: no-repeat; animation: lock 600ms 300ms ease-out both;
+}
+@keyframes lock { from { transform: scale(1.25); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.qrLink {
+  position: absolute; left: 50%; bottom: 10%; transform: translateX(-50%); padding: 2.2cqw 4.4cqw; border-radius: 99px;
+  background: #ffd60a; color: #000; font-size: 3.4cqw; font-weight: 600; white-space: nowrap; animation: pop 400ms ease-out both;
+}
+@keyframes pop { from { opacity: 0; transform: translate(-50%, 2cqw); } }
+.shutterRow { position: absolute; left: 0; right: 0; bottom: 0; height: 34cqw; display: grid; justify-items: center; align-content: center; gap: 4cqw; }
+.mode { color: #ffd60a; font-size: 3.2cqw; font-weight: 600; letter-spacing: 0.05em; }
+.shutter { width: 17cqw; height: 17cqw; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.2cqw #000, 0 0 0 1.9cqw #fff; }
+
+/* ---------- iPhone: the MacWake screen (app, Home Screen icon and console look alike) ---------- */
+.app { position: relative; display: flex; flex-direction: column; padding: 0 6cqw; background: var(--night); color: var(--ink); font-family: var(--font), system-ui, sans-serif; }
+.app > :first-child { margin: 0 -6cqw; }
+.app :global(.led) { width: 12cqw; height: 3.4cqw; flex: none; }
+.appTop { display: flex; justify-content: space-between; margin: 1cqw 0 10cqw; color: var(--soft); font-size: 3.6cqw; }
+.appTop span:first-child { font-weight: 650; }
+.signLed { margin-top: 16cqw; }
+.appWord { margin: 6cqw 0 3cqw !important; font-size: 13cqw; line-height: 1; font-weight: 650; letter-spacing: -0.045em; }
+.appLine { color: var(--soft); font-size: 3.6cqw; line-height: 1.4; }
+.appFacts { display: grid; grid-template-columns: 1fr auto; margin: 6cqw 0 0; font-size: 3.4cqw; }
+.appFacts dt, .appFacts dd { margin: 0; padding: 2.4cqw 0; border-top: 0.25cqw solid var(--line); }
+.appFacts dt { color: var(--soft); }
+.appFacts dd { font-weight: 550; text-align: right; }
+.appPill { display: block; margin: auto 0 8cqw; padding: 3.8cqw; border-radius: 99px; text-align: center; background: var(--ink); color: var(--night); font-size: 4cqw; font-weight: 600; }
+.signForm { display: grid; gap: 2.4cqw; margin: auto 0 8cqw; }
+.signForm .appPill { margin: 0; }
+.quiet { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 0.4cqw var(--line); }
+.label { color: var(--soft); font-size: 3.4cqw; }
+.input { position: relative; min-height: 11cqw; padding: 3.4cqw 3.6cqw; border-radius: 3.2cqw; background: var(--raise); box-shadow: inset 0 0 0 0.25cqw var(--line); font-size: 3.6cqw; }
+.placeholder { color: var(--faint); }
+.dots { letter-spacing: 0.04em; animation: fill 500ms ease-out both; }
+@keyframes fill { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+/* iOS's edit menu bubble over the field. */
+.callout {
+  position: absolute; left: 5cqw; top: -10.5cqw; padding: 2cqw 4.4cqw; border-radius: 2.4cqw;
+  background: #3a3a3c; color: #fff; font-family: -apple-system, system-ui, sans-serif; font-size: 3.6cqw; animation: pop2 300ms ease-out both;
+}
+.callout::after { content: ""; position: absolute; left: 50%; bottom: -1.8cqw; margin-left: -1.8cqw; border: 1.8cqw solid transparent; border-top-color: #3a3a3c; border-bottom: 0; }
+@keyframes pop2 { from { opacity: 0; transform: scale(0.9); } }

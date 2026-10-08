@@ -21,6 +21,7 @@ export default function Nav() {
         </a>
         <nav aria-label="Main" className={css.links}>
           <a href="#how">How it works</a>
+          <a href="#setup">Set up</a>
           <a href="#features">Features</a>
           <a href="#faq">Questions</a>
           <a href={site.console} target="_blank" rel="noopener">Console</a>

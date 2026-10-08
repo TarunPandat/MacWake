@@ -1,0 +1,99 @@
+.layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(40px, 7vw, 112px);
+  align-items: center; margin-top: clamp(40px, 6vw, 72px);
+}
+.wide { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
+
+/* ---------- The steps: a real sequence, so numbered. The current one wakes up (thin to heavy). ---------- */
+.steps { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); max-width: 560px; }
+.step {
+  position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 4px; width: 100%;
+  padding: 20px 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; cursor: pointer;
+}
+.num { font-size: 30px; line-height: 1; font-weight: 200; color: var(--faint); transition: font-weight 500ms var(--ease), color 400ms; }
+.title { display: block; font-size: 19px; font-weight: 600; color: var(--soft); transition: color 300ms; }
+.text { display: block; margin-top: 4px; font-size: 16px; line-height: 1.5; color: var(--faint); transition: color 300ms; }
+.step:hover .title { color: var(--ink); }
+.step[aria-current="step"] .num { font-weight: 700; color: var(--led); }
+.step[aria-current="step"] .title { color: var(--ink); }
+.step[aria-current="step"] .text { color: var(--soft); }
+/* How long until the next step plays: a thin line of sleep light along the top edge. */
+.progress {
+  position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--led);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--led) 60%, transparent);
+  transform-origin: left; animation: grow linear forwards;
+}
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.ctas:empty { display: none; }
+
+/* ---------- Phone. Everything inside is sized in cqw, so it scales like a screenshot. ---------- */
+.figure { margin: 0; width: min(300px, 78vw); container-type: inline-size; justify-self: center; }
+.phone {
+  position: relative; aspect-ratio: 9 / 19.5; padding: 3.4cqw; border-radius: 16cqw; background: var(--deep);
+  box-shadow: inset 0 0 0 0.6cqw var(--lid), inset 0 0 0 1.3cqw #07081a, 0 40px 90px -40px #000;
+}
+.phone::before, .phone::after { content: ""; position: absolute; width: 0.9cqw; border-radius: 1cqw; background: var(--lid); }
+.phone::before { right: -0.5cqw; top: 27%; height: 14%; }
+.phone::after { left: -0.5cqw; top: 22%; height: 7%; box-shadow: 0 11cqw 0 var(--lid); }
+.screen {
+  position: relative; height: 100%; overflow: hidden; border-radius: 12.8cqw; background: #000; color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; font-size: 4.2cqw; line-height: 1.35;
+}
+.status { display: flex; align-items: center; justify-content: space-between; height: 13cqw; padding: 0 7cqw 0 9cqw; font-weight: 600; }
+.island { position: absolute; top: 2.8cqw; left: 50%; width: 28cqw; height: 8cqw; margin-left: -14cqw; border-radius: 99px; background: #000; }
+.battery { width: 6.6cqw; height: 3.2cqw; border-radius: 1cqw; box-shadow: inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.5); padding: 0.6cqw; }
+.battery::before { content: ""; display: block; height: 100%; border-radius: 0.4cqw; background: #fff; }
+
+/* ---------- Mac: a MacBook screen and the front of its base. ---------- */
+.macFigure { margin: 0; width: 100%; max-width: 640px; container-type: inline-size; justify-self: center; }
+.mac {
+  padding: 2cqw 2cqw 2.6cqw; border-radius: 3.2cqw 3.2cqw 0 0; background: #07081a;
+  box-shadow: inset 0 0 0 0.35cqw var(--lid), 0 40px 90px -40px #000;
+}
+.macScreen {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.8cqw; color: #fff;
+  background: radial-gradient(70% 80% at 25% 15%, #3a3f8c, transparent 70%), radial-gradient(60% 70% at 85% 90%, #1d4a52, transparent 70%), #12142b;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; font-size: 1.75cqw; line-height: 1.35;
+}
+.macBase {
+  position: relative; height: 2.2cqw; margin: 0 -5%; border-radius: 0 0 2.4cqw 2.4cqw;
+  background: linear-gradient(#3d4180, #232657);
+}
+.macBase::after { content: ""; position: absolute; left: 42%; right: 42%; top: 0; height: 45%; border-radius: 0 0 1cqw 1cqw; background: #1b1d44; }
+
+.layer { position: absolute; inset: 0; }
+.layer > * { height: 100%; }
+.layer p { margin: 0; }
+/* The pressed control dims, the way macOS and iOS show a click or tap. Timed to the pointer landing. */
+.layer [data-tap] { animation: pressed 420ms 1050ms ease-out both; }
+@keyframes pressed { 40% { opacity: 0.5; } 100% { opacity: 1; } }
+
+/* ---------- Pointers ---------- */
+.finger { position: absolute; z-index: 5; width: 11cqw; height: 11cqw; margin: -5.5cqw 0 0 -5.5cqw; pointer-events: none; }
+.press {
+  position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 0.6cqw rgba(255, 255, 255, 0.6), 0 2cqw 6cqw rgba(0, 0, 0, 0.45);
+  animation: tap 1500ms ease-out both;
+}
+.press::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 0.6cqw solid #fff; opacity: 0;
+  animation: ripple 700ms 1000ms ease-out both;
+}
+/* macOS arrow; its tip is the hotspot, so it sits at the target's centre with no offset. */
+.cursor {
+  position: absolute; z-index: 5; width: 2.4cqw; height: 3.6cqw; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 21'%3E%3Cpath d='M1 1v16l4.2-4.1 2.9 6.6 2.4-1-2.8-6.5H14z' fill='%23000' stroke='%23fff' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+  filter: drop-shadow(0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.5));
+}
+.click {
+  position: absolute; left: -1.6cqw; top: -1.6cqw; width: 3.2cqw; height: 3.2cqw; border-radius: 50%;
+  border: 0.3cqw solid rgba(255, 255, 255, 0.9); opacity: 0; animation: ripple 600ms 1000ms ease-out both;
+}
+@keyframes tap { 0%, 62% { transform: scale(1); } 70% { transform: scale(0.78); } 84%, 100% { transform: scale(1); } }
+@keyframes ripple { from { transform: scale(0.7); opacity: 0.9; } to { transform: scale(2.4); opacity: 0; } }
+
+@media (max-width: 900px) {
+  .layout, .wide { grid-template-columns: 1fr; }
+  .figure, .macFigure { order: -1; }
+}

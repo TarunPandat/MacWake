@@ -1,161 +1,52 @@
-"use client";
-
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import { site } from "../lib/site";
+import Walkthrough, { Status } from "./Walkthrough";
 import s from "./IosInstall.module.css";
-
-const STEP_MS = 3800;
 
 // The real iOS screens for installing the profile, in order. Each screen marks its button with data-tap.
 const STEPS = [
   {
-    screen: "site",
+    key: "site",
     title: "Tap Install on iPhone",
     text: "Open this page in Safari on your iPhone or iPad and tap Install on iPhone.",
   },
   {
-    screen: "allow",
+    key: "allow",
     title: "Allow the download",
     text: "Safari asks whether this website may download a configuration profile. Tap Allow, then Close.",
   },
   {
-    screen: "settings",
+    key: "settings",
     title: "Open Settings",
     text: "Open the Settings app. Profile Downloaded is right under your name. Tap it.",
   },
   {
-    screen: "profile",
+    key: "profile",
     title: "Tap Install",
     text: "The MacWake profile holds one Web Clip: the Home Screen icon. Tap Install, and enter your passcode if asked.",
   },
   {
-    screen: "confirm",
+    key: "confirm",
     title: "Confirm",
     text: "iOS notes that the profile isn't signed. That's expected for MacWake. Tap Install, then Install again.",
   },
   {
-    screen: "home",
+    key: "home",
     title: "Open MacWake",
-    text: "MacWake is on your Home Screen. Open it and sign in with the pairing code from your Mac.",
+    text: "MacWake is on your Home Screen. Open it and pair it with your Mac, as shown below.",
   },
 ];
 
 export default function IosInstall() {
-  const reduce = useReducedMotion();
-  const section = useRef(null);
-  const screen = useRef(null);
-  const inView = useInView(section, { amount: 0.35 });
-  const [step, setStep] = useState(0);
-  const [auto, setAuto] = useState(true);
-  const [tap, setTap] = useState(null);
-  const cur = STEPS[step];
-  const playing = auto && inView && !reduce;
-
-  // Plays through the steps while the section is on screen, until someone picks a step themselves.
-  useEffect(() => {
-    if (!playing) return;
-    const t = setTimeout(() => setStep((i) => (i + 1) % STEPS.length), STEP_MS);
-    return () => clearTimeout(t);
-  }, [step, playing]);
-
-  // The finger goes to the middle of the current screen's button, wherever it lays out.
-  useLayoutEffect(() => {
-    const place = () => {
-      const root = screen.current;
-      const el = root?.querySelector(`[data-tap="${cur.screen}"]`);
-      if (!el) return;
-      const a = root.getBoundingClientRect();
-      const b = el.getBoundingClientRect();
-      setTap({ x: ((b.left + b.width / 2 - a.left) / a.width) * 100, y: ((b.top + b.height / 2 - a.top) / a.height) * 100 });
-    };
-    place();
-    window.addEventListener("resize", place);
-    return () => window.removeEventListener("resize", place);
-  }, [cur.screen]);
-
-  const pick = (i) => {
-    setAuto(false);
-    setStep(i);
-  };
-  const replay = () => {
-    setStep(0);
-    setAuto(true);
-  };
-
   return (
-    <section className="section" id="install-iphone" aria-labelledby="install-iphone-title" ref={section}>
+    <section className="section" id="install-iphone" aria-labelledby="install-iphone-title">
       <div className="wrap">
         <h2 className="h2" id="install-iphone-title">Install on iPhone and iPad</h2>
         <p className="lead">No App Store needed. Six taps, about a minute, and the same on iPad.</p>
-
-        <div className={s.layout}>
-          <div>
-            <ol className={s.steps}>
-              {STEPS.map((st, i) => (
-                <li key={st.screen}>
-                  <button className={s.step} aria-current={i === step ? "step" : undefined} onClick={() => pick(i)}>
-                    <span className={s.num}>{i + 1}</span>
-                    <span>
-                      <span className={s.title}>{st.title}</span>
-                      <span className={s.text}>{st.text}</span>
-                    </span>
-                    {i === step && playing && (
-                      <span key={step} className={s.progress} style={{ animationDuration: `${STEP_MS}ms` }} />
-                    )}
-                  </button>
-                </li>
-              ))}
-            </ol>
-            <div className={s.ctas}>
-              <a className="btn" href={site.iosProfile}>Install on iPhone</a>
-              {!auto && !reduce && (
-                <button className="btn quiet" onClick={replay}>Play the steps</button>
-              )}
-            </div>
-          </div>
-
-          <figure className={s.figure} aria-hidden="true">
-            <div className={s.phone}>
-              <div className={s.screen} ref={screen}>
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={cur.screen}
-                    className={s.layer}
-                    initial={{ opacity: 0, scale: 0.985 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: reduce ? 0 : 0.35 }}
-                  >
-                    {SCREENS[cur.screen]}
-                  </motion.div>
-                </AnimatePresence>
-                {tap && !reduce && (
-                  <motion.span
-                    className={s.finger}
-                    initial={false}
-                    animate={{ left: `${tap.x}%`, top: `${tap.y}%` }}
-                    transition={{ type: "spring", stiffness: 110, damping: 18 }}
-                  >
-                    <span key={step} className={s.press} />
-                  </motion.span>
-                )}
-              </div>
-            </div>
-          </figure>
-        </div>
+        <Walkthrough steps={STEPS} screens={SCREENS} cta={<a className="btn" href={site.iosProfile}>Install on iPhone</a>} />
       </div>
     </section>
   );
 }
-
-const Status = () => (
-  <div className={s.status}>
-    <span>9:41</span>
-    <span className={s.island} />
-    <span className={s.battery} />
-  </div>
-);
 
 // Step 1 and 2: this website in Safari.
 const Site = ({ alert }) => (
