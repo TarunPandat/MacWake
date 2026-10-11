@@ -52,7 +52,7 @@ export default function Hero() {
             <span>Wake your Mac</span> <span>at home from</span> <span>anywhere.</span>
           </h1>
           <p className={`lead ${css.lead}`}>
-            Tap Wake on your phone. Your sleeping MacBook gets ready for Screen Sharing and SSH, even with the lid closed, and you can watch its screen live right from the app.
+            Tap Wake on your phone. Your sleeping MacBook gets ready for Screen Sharing and SSH, even with the lid closed, and you can watch and control its screen right from the app.
           </p>
           <div className={css.ctas}>
             <a className="btn" href="#download">Get MacWake</a>

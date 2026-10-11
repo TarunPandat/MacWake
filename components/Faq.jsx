@@ -18,8 +18,8 @@ const faqs = [
     "Connect with Screen Sharing or SSH. It stays awake for your “Stay awake for” time, 30 minutes by default, then lets itself sleep again. Tap “Let it sleep” to end it early.",
   ],
   [
-    "Can I see my Mac's screen?",
-    "Yes. Tap Watch screen in the app or the console. It wakes the Mac if needed and shows its screen live, view-only. On the Mac, allow Screen Recording for MacWake once when it asks. With the lid closed and no external display there's no screen to show, and right after a wake you may see the lock screen.",
+    "Can I see and control my Mac's screen?",
+    "Yes. Tap Watch screen in the app or the console. It wakes the Mac if needed and shows its screen live. Tap to click, drag to scroll, long-press to right-click, or switch to Trackpad mode to move the pointer like a laptop trackpad. Keys opens your phone's keyboard with a row of Mac keys (esc, tab, arrows, ⌘ ⌥ ⌃ ⇧); on a computer, just use your mouse and keyboard. On the Mac, allow Screen Recording and Accessibility for MacWake once when it asks, and turn control off any time with Allow remote control in its menu. With the lid closed and no external display there's no screen to show, and right after a wake you may see the lock screen.",
   ],
   [
     "Will it drain my battery?",

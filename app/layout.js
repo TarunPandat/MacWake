@@ -7,7 +7,7 @@ const onest = Onest({ subsets: ["latin"], variable: "--font", display: "swap" })
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://macwake.vercel.app"),
   title: "MacWake: wake your Mac at home from anywhere",
-  description: "Tap Wake on your phone and your sleeping MacBook at home is ready for Screen Sharing and SSH, and you can watch its screen live. For macOS, iPhone, iPad and Android.",
+  description: "Tap Wake on your phone and your sleeping MacBook at home is ready for Screen Sharing and SSH, and you can watch and control its screen. For macOS, iPhone, iPad and Android.",
   openGraph: {
     title: "MacWake",
     description: "Wake your Mac at home from anywhere.",

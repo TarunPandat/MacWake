@@ -50,8 +50,8 @@ function Icon({ children }) {
 
 const ITEMS = [
   {
-    term: "Watch the screen live",
-    text: "Tap Watch screen in the app or the console to see your Mac's screen as it happens. The video goes straight from your Mac to your phone, encrypted, and the Mac shows an eye in its menu bar while someone watches.",
+    term: "Watch and control the screen",
+    text: "Tap Watch screen in the app or the console to see your Mac's screen as it happens, then use it: tap to click, drag to scroll, type with your phone's keyboard or an iPad Magic Keyboard. Video and input go straight between your Mac and your phone, encrypted, and the Mac shows an eye in its menu bar while someone watches and a pointer while someone controls it.",
     icon: (
       <Icon>
         <path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z" />

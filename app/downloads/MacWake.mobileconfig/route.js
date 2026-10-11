@@ -28,7 +28,7 @@ export function GET() {
       <key>Label</key><string>MacWake</string>
       <key>Precomposed</key><true/>
       <key>URL</key><string>${xml(site.console)}</string>
-      <key>PayloadDescription</key><string>Adds MacWake to your Home Screen: wake your Mac and watch its screen.</string>
+      <key>PayloadDescription</key><string>Adds MacWake to your Home Screen: wake your Mac and watch or control its screen.</string>
       <key>PayloadDisplayName</key><string>MacWake</string>
       <key>PayloadIdentifier</key><string>io.macwake.webclip</string>
       <key>PayloadType</key><string>com.apple.webClip.managed</string>
