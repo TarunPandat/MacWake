@@ -38,7 +38,7 @@ const ROWS = {
       </a>
     ),
     small: `macOS 13 or later. Apple silicon and Intel. Version ${site.macVersion}.`,
-    note: "Open the DMG and drag MacWake to Applications. macOS blocks the first launch because the app isn't notarized yet: open System Settings, Privacy & Security, and click Open Anyway. Then it sits in the menu bar.",
+    note: "Open the DMG and drag MacWake to Applications. macOS blocks the first launch because the app isn't notarized yet: open System Settings, Privacy & Security, and click Open Anyway. Then it sits in the menu bar. Allow Screen Recording when it asks, so you can watch the screen from your phone.",
   },
   ios: {
     name: "iPhone and iPad",

@@ -50,6 +50,16 @@ function Icon({ children }) {
 
 const ITEMS = [
   {
+    term: "Watch the screen live",
+    text: "Tap Watch screen in the app or the console to see your Mac's screen as it happens. The video goes straight from your Mac to your phone, encrypted, and the Mac shows an eye in its menu bar while someone watches.",
+    icon: (
+      <Icon>
+        <path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+        <circle cx="12" cy="12" r="3" />
+      </Icon>
+    ),
+  },
+  {
     term: "Works with the lid closed",
     text: "With the lid shut, the Mac stays awake with its screen off, and Screen Sharing and SSH still work.",
     icon: (
