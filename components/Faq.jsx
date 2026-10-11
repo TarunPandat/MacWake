@@ -19,7 +19,7 @@ const faqs = [
   ],
   [
     "Can I see and control my Mac's screen?",
-    "Yes. Tap Watch screen in the app or the console. It wakes the Mac if needed and shows its screen live. Tap to click, drag to scroll, long-press to right-click, or switch to Trackpad mode to move the pointer like a laptop trackpad. Keys opens your phone's keyboard with a row of Mac keys (esc, tab, arrows, ⌘ ⌥ ⌃ ⇧); on a computer, just use your mouse and keyboard. On the Mac, allow Screen Recording and Accessibility for MacWake once when it asks, and turn control off any time with Allow remote control in its menu. With the lid closed and no external display there's no screen to show, and right after a wake you may see the lock screen.",
+    "Yes. Tap Watch screen in the app or the console. It wakes the Mac if needed and shows its screen live. Tap to click, drag to scroll, long-press to right-click, or switch to Trackpad mode to move the pointer like a laptop trackpad. Swipe with three fingers to switch Spaces, or up for Mission Control, just like on a Mac trackpad. Keys opens your phone's keyboard with a row of Mac keys (esc, tab, arrows, ⌘ ⌥ ⌃ ⇧), and ⌃← / ⌃→ switch Spaces from any keyboard; on a computer, just use your mouse and keyboard. On the Mac, allow Screen Recording and Accessibility for MacWake once when it asks, and turn control off any time with Allow remote control in its menu. With the lid closed and no external display there's no screen to show, and right after a wake you may see the lock screen.",
   ],
   [
     "Will it drain my battery?",
